@@ -21,6 +21,30 @@
       font-size: 2.5rem;
       margin: 0;
     }
+    nav {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    nav button {
+      background-color: #32CD32; /* Verde Lima */
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 0 1rem;
+      transition: background-color 0.3s;
+    }
+    nav button:hover {
+      background-color: #228B22; /* Tom mais escuro de verde */
+    }
+    .bio, .gallery {
+      display: none; /* Iniciar oculto */
+    }
+    .bio.active, .gallery.active {
+      display: block; /* Mostrar quando ativado */
+    }
     .bio {
       max-width: 800px;
       margin: 2rem auto;
@@ -28,9 +52,20 @@
       font-size: 1.1rem;
       line-height: 1.6;
     }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .social-links a {
+      margin: 0 1rem;
+      color: #32CD32;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       padding: 2rem;
       max-width: 1200px;
@@ -38,12 +73,31 @@
     }
     .gallery img {
       width: 100%;
+      max-width: 350px;
       border-radius: 1rem;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
       transition: transform 0.3s;
     }
     .gallery img:hover {
       transform: scale(1.03);
+    }
+    /* Modal de imagem */
+    #image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    #image-modal img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
     footer {
       text-align: center;
@@ -58,18 +112,74 @@
     <h1>TonnyTheArtist</h1>
   </header>
 
-  <section class="bio">
-    <p>Hello, my name is Tonny 20Y and I am a digital designer and illustrator, since 2020 I have been studying to finally become a professional in the arts field, initially starting with the famous commissions through social networks, I have worked on small local projects and made a lot of art for personal use for clients from all over the world, anyway, feel free to evaluate all my work here!</p>
+  <!-- Navegação -->
+  <nav>
+    <button id="portfolio-btn">Portfólio</button>
+    <button id="about-btn">Sobre Mim</button>
+  </nav>
+
+  <!-- Seção "Sobre Mim" -->
+  <section class="bio" id="bio">
+    <p>Olá, meu nome é Tonny, tenho 20 anos e sou um designer digital e ilustrador. Desde 2020, venho me dedicando para me tornar um profissional na área de artes, começando com comissões em redes sociais. Já trabalhei em pequenos projetos locais e criei diversas artes para clientes de todo o mundo. Sinta-se à vontade para conferir meu trabalho!</p>
+    
+    <!-- Links sociais com ícones -->
+    <div class="social-links">
+      <a href="https://x.com/TonnyTheArtist" target="_blank">
+        <img src="twitter.png" alt="Twitter" width="30" height="30">
+        Twitter
+      </a>
+      <a href="https://www.reddit.com/user/Tonny_Art/" target="_blank">
+        <img src="reddit.png" alt="Reddit" width="30" height="30">
+        Reddit
+      </a>
+      <a href="https://cara.app/tonny/portfolio" target="_blank">
+        <img src="cara.png" alt="Cara" width="30" height="30">
+        Cara
+      </a>
+    </div>
   </section>
 
-  <section class="gallery">
-    <img src="lumiuss.png" alt="Arte 1 - Guerreiro futurista azul">
-    <img src="meninaasa.png" alt="Arte 2 - Garota com asas e expressão serena">
-    <img src="Blaze2.png" alt="Arte 3 - Criatura flamejante estilizada">
+  <!-- Seção "Portfólio" -->
+  <section class="gallery" id="portfolio">
+    <img src="lumiuss.png" alt="Arte 1 - Guerreiro futurista azul" onclick="openImage('lumiuss.png')">
+    <img src="meninaasa.png" alt="Arte 2 - Garota com asas e expressão serena" onclick="openImage('meninaasa.png')">
+    <img src="Blaze2.png" alt="Arte 3 - Criatura flamejante estilizada" onclick="openImage('Blaze2.png')">
   </section>
+
+  <!-- Modal de Imagem -->
+  <div id="image-modal" onclick="closeModal()">
+    <img id="modal-img" src="" alt="Ampliar Arte">
+  </div>
 
   <footer>
     <p>&copy; 2025 TonnyTheArtist. Todos os direitos reservados.</p>
   </footer>
+
+  <script>
+    // Script para navegação entre as seções
+    document.getElementById('portfolio-btn').addEventListener('click', function() {
+      document.getElementById('portfolio').classList.add('active');
+      document.getElementById('bio').classList.remove('active');
+    });
+
+    document.getElementById('about-btn').addEventListener('click', function() {
+      document.getElementById('bio').classList.add('active');
+      document.getElementById('portfolio').classList.remove('active');
+    });
+
+    // Função para abrir o modal da imagem
+    function openImage(imageSrc) {
+      document.getElementById('image-modal').style.display = 'flex';
+      document.getElementById('modal-img').src = imageSrc;
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+      document.getElementById('image-modal').style.display = 'none';
+    }
+
+    // Exibir o portfólio por padrão
+    document.getElementById('portfolio').classList.add('active');
+  </script>
 </body>
 </html>
