@@ -1,185 +1,345 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TonnyTheArtist | Portfólio</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0f0f0f;
       color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
     }
+
     header {
       background: #1e1e1e;
       padding: 2rem;
       text-align: center;
-      border-bottom: 2px solid #333;
     }
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-    }
+    header h1 { margin: 0; font-size: 2.5rem; }
+
     nav {
       text-align: center;
-      margin: 2rem 0;
+      margin-top: 1.5rem;
     }
-    nav button {
-      background-color: #32CD32; /* Verde Lima */
-      color: white;
+
+    button {
+      background-color: #5eff88;
+      color: black;
+      font-weight: bold;
       border: none;
       padding: 1rem 2rem;
-      font-size: 1rem;
-      cursor: pointer;
       border-radius: 5px;
-      margin: 0 1rem;
-      transition: background-color 0.3s;
+      font-size: 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-    nav button:hover {
-      background-color: #228B22; /* Tom mais escuro de verde */
+    button:hover {
+      background-color: #4ddb70;
+      transform: scale(1.05);
     }
-    .bio, .gallery {
-      display: none; /* Iniciar oculto */
+
+    .bio, .gallery, .social-links {
+      display: none;
     }
-    .bio.active, .gallery.active {
-      display: block; /* Mostrar quando ativado */
+    .active {
+      display: block;
     }
-    .bio {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    .social-links {
-      display: flex;
-      justify-content: center;
+
+    .filter-buttons {
+      text-align: center;
       margin-top: 1rem;
     }
-    .social-links a {
-      margin: 0 1rem;
-      color: #32CD32;
-      font-size: 1.5rem;
-      text-decoration: none;
+
+    .filter-btn {
+      background-color: #39e75f;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 0.3rem;
+      transition: all 0.3s ease;
     }
-    .gallery {
+
+button.highlight {
+  box-shadow: 0 0 10px #5eff88, 0 0 20px #5eff88;
+  background-color: #75ffa1;
+}
+
+
+    .filter-btn:hover {
+      background-color: #30c850;
+      transform: scale(1.05);
+    }
+
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1.5rem;
       padding: 2rem;
       max-width: 1200px;
       margin: auto;
     }
-    .gallery img {
+
+    .gallery-grid img {
       width: 100%;
-      max-width: 350px;
       border-radius: 1rem;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
-    .gallery img:hover {
-      transform: scale(1.03);
+
+    .gallery-grid img:hover {
+      transform: scale(1.05);
     }
-    /* Modal de imagem */
+
     #image-modal {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.8);
       display: none;
       justify-content: center;
       align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    #image-modal img {
+
+    #image-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    #modal-img {
       max-width: 80%;
       max-height: 80%;
+      transform: scale(0.9);
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      transition: transform 0.3s ease;
     }
+
+    #image-modal.active #modal-img {
+      transform: scale(1);
+    }
+
+    .bio {
+      max-width: 1000px;
+      margin: 2rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      text-align: center;
+    }
+
+	.bio-text {
+ 	 display: flex;
+ 	 align-items: center;
+ 	 justify-content: center;
+  	background-color: #1e1e1e;
+ 	 padding: 2rem;
+	  border-radius: 10px;
+ 	 box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+	  flex: 1;
+	  flex-wrap: wrap;
+	  gap: 2rem;
+	}
+
+	.bio-text p {
+  max-width: 500px;
+  text-align: left;
+}
+
+
+
+    .bio img {
+      max-width: 300px;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .bio-text img {
+     max-width: 300px;
+     border-radius: 1rem;
+     margin-bottom: 1rem;
+     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+
+    .social-links {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      margin: 0 1rem;
+      display: inline-block;
+      text-decoration: none;
+      color: #f5f5f5;
+      transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: scale(1.1);
+    }
+
+    .social-links img {
+      width: 30px;
+      vertical-align: middle;
+      margin-right: 0.3rem;
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
       color: #aaa;
-      font-size: 0.9rem;
     }
+
+button.selected,
+.filter-btn.selected {
+  box-shadow: 0 0 15px 5px #5eff88;
+  background-color: #e0ffe7;
+  color: #2a003f !important; /* roxo escuro */
+}
+
   </style>
 </head>
 <body>
-  <header>
-    <h1>TonnyTheArtist</h1>
-  </header>
 
-  <!-- Navegação -->
-  <nav>
-    <button id="portfolio-btn">Portfólio</button>
-    <button id="about-btn">Sobre Mim</button>
-  </nav>
+  <header><h1 id="home-btn" style="cursor: pointer;">TonnyTheArtist</h1></header>
 
-  <!-- Seção "Sobre Mim" -->
-  <section class="bio" id="bio">
-    <p>Olá, meu nome é Tonny, tenho 20 anos e sou um designer digital e ilustrador. Desde 2020, venho me dedicando para me tornar um profissional na área de artes, começando com comissões em redes sociais. Já trabalhei em pequenos projetos locais e criei diversas artes para clientes de todo o mundo. Sinta-se à vontade para conferir meu trabalho!</p>
+
+ <nav>
+  <button id="portfolio-btn"><strong>Portfólio</strong></button> <!-- TEXTO EM NEGRITO -->
+  <button id="about-btn"><strong>Sobre Mim</strong></button>     <!-- TEXTO EM NEGRITO -->
+</nav>
+
+<!-- Portfólio: COMEÇA OCULTO -->
+<div class="gallery" id="portfolio">
+    <div class="filter-buttons">
+      <button class="filter-btn" onclick="showCategory('fullrender')">Full Render</button>
+      <button class="filter-btn" onclick="showCategory('sketches')">Sketches</button>
+      <button class="filter-btn" onclick="showCategory('concepts')">Concepts</button>
+    </div>
+    <div id="fullrender" class="gallery-grid">
+      <img src="lumiuss.png" onclick="openImage('lumiuss.png')">
+      <img src="dragonfruit.png" onclick="openImage('dragonfruit.png')">
+      <img src="inseto.png" onclick="openImage('inseto.png')">
+      <img src="redvulpes.png" onclick="openImage('redvulpes.png')">
+      <img src="typhlosion.png" onclick="openImage('typhlosion.png')">
+    </div>
+    <div id="sketches" class="gallery-grid" style="display:none;">
+      <img src="meninaasa.png" onclick="openImage('meninaasa.png')">
+      <img src="fusao13.png" onclick="openImage('fusao13.png')">
+      <img src="fusao5.png" onclick="openImage('fusao5.png')">
+      <img src="treino2.png" onclick="openImage('treino2.png')">
+      <img src="treino5.png" onclick="openImage('treino5.png')">
+    </div>
+    <div id="concepts" class="gallery-grid" style="display:none;">
+      <img src="Blaze2.png" onclick="openImage('Blaze2.png')">
+      <img src="tapu.png" onclick="openImage('tapu.png')">
+      <img src="tapukoko.png" onclick="openImage('tapukoko.png')">
+      <img src="mariopool.png" onclick="openImage('mariopool.png')">
+      <img src="new mine skelto.png" onclick="openImage('new mine skelto.png')">
+    </div>
+  </div>
+
+  <section class="bio" id="bio" style="display: none;">
     
-    <!-- Links sociais com ícones -->
-    <div class="social-links">
-      <a href="https://x.com/TonnyTheArtist" target="_blank">
-        <img src="twitter.png" alt="Twitter" width="30" height="30">
-        Twitter
-      </a>
-      <a href="https://www.reddit.com/user/Tonny_Art/" target="_blank">
-        <img src="reddit.png" alt="Reddit" width="30" height="30">
-        Reddit
-      </a>
-      <a href="https://cara.app/tonny/portfolio" target="_blank">
-        <img src="cara.png" alt="Cara" width="30" height="30">
-        Cara
-      </a>
+    <div class="bio-text">
+	<img src="ciclopeclash.png" alt="Tonny Art">
+      <p>Hello, my name is Tonny, 20y, and I am a freelance digital illustrator. Since 2020 I have been studying to become a professional in the arts. I started with commissions on social media and now I do personal and greater local projects. Feel free to explore my work and contact-me in case you want to order some work!</p>
     </div>
   </section>
 
-  <!-- Seção "Portfólio" -->
-  <section class="gallery" id="portfolio">
-    <img src="lumiuss.png" alt="Arte 1 - Guerreiro futurista azul" onclick="openImage('lumiuss.png')">
-    <img src="meninaasa.png" alt="Arte 2 - Garota com asas e expressão serena" onclick="openImage('meninaasa.png')">
-    <img src="Blaze2.png" alt="Arte 3 - Criatura flamejante estilizada" onclick="openImage('Blaze2.png')">
-  </section>
+  <div class="social-links" id="socials" style="display: none;">
+    <a href="https://x.com/TonnyTheArtist" target="_blank">
+      <img src="twitter.png">Twitter
+    </a>
+    <a href="https://www.reddit.com/user/Tonny_Art/" target="_blank">
+      <img src="reddit.png">Reddit
+    </a>
+    <a href="https://cara.app/tonny/portfolio" target="_blank">
+      <img src="cara.png">Cara
+    </a>
+  </div>
 
-  <!-- Modal de Imagem -->
   <div id="image-modal" onclick="closeModal()">
-    <img id="modal-img" src="" alt="Ampliar Arte">
+    <img id="modal-img" src="">
   </div>
 
   <footer>
-    <p>&copy; 2025 TonnyTheArtist. Todos os direitos reservados.</p>
+    <p>&copy; 2025 TonnyTheArtist. All rights reserved.</p>
   </footer>
 
   <script>
-    // Script para navegação entre as seções
-    document.getElementById('portfolio-btn').addEventListener('click', function() {
-      document.getElementById('portfolio').classList.add('active');
-      document.getElementById('bio').classList.remove('active');
-    });
+    // Função para remover destaque dos botões principais
+function clearMainButtons() {
+  document.getElementById('portfolio-btn').classList.remove('selected');
+  document.getElementById('about-btn').classList.remove('selected');
+}
 
-    document.getElementById('about-btn').addEventListener('click', function() {
-      document.getElementById('bio').classList.add('active');
-      document.getElementById('portfolio').classList.remove('active');
-    });
+// BOTÃO PORTFÓLIO
+document.getElementById('portfolio-btn').onclick = () => {
+  clearMainButtons();
+  document.getElementById('portfolio-btn').classList.add('selected');
+  document.getElementById('portfolio').style.display = 'block';
+  document.getElementById('bio').style.display = 'none';
+  document.getElementById('socials').style.display = 'none';
+};
 
-    // Função para abrir o modal da imagem
-    function openImage(imageSrc) {
-      document.getElementById('image-modal').style.display = 'flex';
-      document.getElementById('modal-img').src = imageSrc;
+// BOTÃO SOBRE MIM
+document.getElementById('about-btn').onclick = () => {
+  clearMainButtons();
+  document.getElementById('about-btn').classList.add('selected');
+  document.getElementById('portfolio').style.display = 'none';
+  document.getElementById('bio').style.display = 'flex';
+  document.getElementById('socials').style.display = 'block';
+};
+
+
+    function showCategory(cat) {
+  document.querySelectorAll('.gallery-grid').forEach(g => g.style.display = 'none');
+  document.getElementById(cat).style.display = 'grid';
+
+  // Remove classe 'selected' de todos os botões
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('selected'));
+
+  // Adiciona classe 'selected' ao botão clicado
+  const clickedBtn = [...document.querySelectorAll('.filter-btn')].find(btn =>
+    btn.getAttribute('onclick').includes(cat)
+  );
+  if (clickedBtn) clickedBtn.classList.add('selected');
+}
+
+    function openImage(src) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('modal-img').src = src;
+      modal.classList.add('active');
     }
 
-    // Função para fechar o modal
     function closeModal() {
-      document.getElementById('image-modal').style.display = 'none';
+      document.getElementById('image-modal').classList.remove('active');
     }
 
-    // Exibir o portfólio por padrão
-    document.getElementById('portfolio').classList.add('active');
+    showCategory('fullrender'); // mostrar fullrender por padrão quando abrir portfólio
+	
+	// TÍTULO VOLTA PARA A PÁGINA INICIAL
+document.getElementById('home-btn').onclick = () => {
+  document.getElementById('portfolio').style.display = 'none';
+  document.getElementById('bio').style.display = 'none';
+  document.getElementById('socials').style.display = 'none';
+  clearMainButtons();
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('selected'));
+};
+
+
   </script>
+
 </body>
 </html>
