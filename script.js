@@ -1,166 +1,165 @@
-// Declare a variável imageModal fora do event listener
 const imageModal = document.getElementById("image-modal");
 
 document.addEventListener('DOMContentLoaded', () => {
-  const portfolioBtn = document.getElementById('portfolio-btn');
-  const aboutBtn = document.getElementById('about-btn');
-  const commissionsBtn = document.getElementById('commissions-btn');
-  const homeBtn = document.getElementById('home-btn');
-  const termsBtn = document.getElementById('terms-btn');
-  const termsDiv = document.getElementById('terms');
-  const modalImg = document.getElementById("modal-img");
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const galleryImages = document.querySelectorAll('.gallery-grid img');
-  const sliderImages = document.querySelectorAll(".image-slider img"); // Modal
-  const galleryGrids = document.querySelectorAll('.gallery-grid');
-  const mainButtons = [portfolioBtn, aboutBtn, commissionsBtn];
+    const portfolioBtn = document.getElementById('portfolio-btn');
+    const aboutBtn = document.getElementById('about-btn');
+    const commissionsBtn = document.getElementById('commissions-btn');
+    const homeBtn = document.getElementById('home-btn');
+    const termsBtn = document.getElementById('terms-btn');
+    const termsDiv = document.getElementById('terms');
+    const modalImg = document.getElementById("modal-img");
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryImages = document.querySelectorAll('.gallery-grid img');
+    const sliderImages = document.querySelectorAll(".image-slider img");
+    const galleryGrids = document.querySelectorAll('.gallery-grid');
+    const mainButtons = [portfolioBtn, aboutBtn, commissionsBtn];
 
-  function clearMainButtons() {
-    mainButtons.forEach(btn => {
-      btn.classList.remove('selected');
-      btn.classList.remove('highlight');
-    });
-  }
+    const commissionSliders = document.querySelectorAll('#commissions .image-slider');
 
-  function showSection(sectionId) {
-    document.querySelectorAll('.gallery, .bio, .social-links, .commissions').forEach(section => section.style.display = 'none');
-    document.getElementById(sectionId).style.display = 'block';
-  }
+    // Initialize Sliders
+    commissionSliders.forEach(initSlider);
 
-  // BOTÃO PORTFÓLIO
-  portfolioBtn.addEventListener('click', () => {
-    clearMainButtons();
-    portfolioBtn.classList.add('selected');
-    portfolioBtn.classList.add('highlight');
-    showSection('portfolio');
-    showCategory('fullrender');
-  });
+    function initSlider(slider) {
+    const sliderImages = slider.querySelectorAll('img');
+    const imageWidth = 310;
+    const totalImages = sliderImages.length;
+    const originalWidth = imageWidth * totalImages;
+    let currentPosition = 0;
+    let autoAnimation = true;
+    let animationFrameId;
+    let animationSpeed = 0.5;
 
-  // BOTÃO SOBRE MIM
-  aboutBtn.addEventListener('click', () => {
-    clearMainButtons();
-    aboutBtn.classList.add('selected');
-    aboutBtn.classList.add('highlight');
-    showSection('bio');
-    // document.getElementById('socials').style.display = 'block';  <-- REMOVA OU COMENTE ESTA LINHA
-  });
-
-  // BOTÃO COMMISSIONS
-  commissionsBtn.addEventListener('click', () => {
-    clearMainButtons();
-    commissionsBtn.classList.add('selected');
-    commissionsBtn.classList.add('highlight');
-    showSection('commissions');
-    termsDiv.style.display = 'none';
-  });
-
-  // BOTÃO HOME (TÍTULO)
-  homeBtn.addEventListener('click', () => {
-    showSection(null); // Esconde todas as seções principais
-    clearMainButtons(); // Garante que remove o highlight
-    filterButtons.forEach(btn => btn.classList.remove('selected'));
-    mainButtons.forEach(btn => btn.classList.remove('highlight'));  
-  });
-
-  // BOTÃO TERMS OF SERVICE - Se você quiser o highlight nele também, faça como os outros
-  termsBtn.addEventListener('click', () => {
-    termsDiv.style.display = termsDiv.style.display === 'none' ? 'block' : 'none';
-    clearMainButtons(); // Adicione esta linha se quiser remover o highlight de outros botões
-    termsBtn.classList.add('highlight'); // Adicione esta linha
-  });
-
-  // Adicione esta parte para os botões de filtro se quiser o highlight neles também
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      const category = event.target.getAttribute('data-category');
-      showCategory(category);
-      filterButtons.forEach(b => b.classList.remove('highlight')); // Remove de outros
-      btn.classList.add('highlight'); // Adiciona ao clicado
-    });
-  });
-
-  function showCategory(cat) {
-    galleryGrids.forEach(g => g.style.display = 'none');
-    document.getElementById(cat).style.display = 'grid';
-
-    // Remove classe 'selected' de todos os botões de filtro
-    filterButtons.forEach(btn => btn.classList.remove('selected'));
-
-    // Adiciona classe 'selected' ao botão clicado
-    const clickedBtn = Array.from(filterButtons).find(btn =>
-      btn.getAttribute('data-category') === cat
-    );
-    if (clickedBtn) clickedBtn.classList.add('selected');
-  }
-
-  // Adiciona event listeners para os botões de filtro
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      const category = event.target.getAttribute('data-category');
-      showCategory(category);
-    });
-  });
-
-  // MODAL
-  function openImage(src) {
-    modalImg.src = src;
-    imageModal.classList.add("active");
-  }
-
-  function closeModal() {
-    imageModal.classList.remove('active');
-  }
-
-  galleryImages.forEach(img => {
-    img.addEventListener('click', () => openImage(img.src));
-  });
-
-  sliderImages.forEach(img => { // Modal
-    img.addEventListener("click", () => openImage(img.src));
-  });
-
-  // SLIDER (Adicionado aqui)
-  const commissionSlider = document.querySelector('#commissions .image-slider');
-  const commissionSliderImages = document.querySelectorAll('#commissions .image-slider img');
-  const commissionImageWidth = 310;
-  const commissionTotalImages = commissionSliderImages.length;
-  const commissionOriginalWidth = commissionImageWidth * (commissionTotalImages / 2);
-  let commissionCurrentPosition = 0;
-
-  function animateCommissionSlider() {
-    commissionCurrentPosition -= 1;
-    commissionSlider.style.transform = `translateX(${commissionCurrentPosition}px)`;
-
-    // Repositioning Logic
-    if (commissionCurrentPosition <= -commissionOriginalWidth) {
-      commissionCurrentPosition = 0;
-      commissionSlider.style.transition = 'none'; // Remove transition
-      commissionSlider.style.transform = `translateX(${commissionCurrentPosition}px)`;
-      requestAnimationFrame(() => { // Use requestAnimationFrame for the next frame
-        commissionSlider.style.transition = 'transform 0.3s linear'; // Re-add transition
-      });
+    function updateSliderPosition() {
+        slider.style.transform = `translateX(${currentPosition}px)`;
     }
 
-    requestAnimationFrame(animateCommissionSlider);
-  }
+    function animateSlider() {
+        if (!autoAnimation) return;
 
-  if (commissionSlider) { // Verifica se o slider existe
-    animateCommissionSlider();
-  }
-});
+        currentPosition -= animationSpeed;
+        updateSliderPosition();
 
-// Adiciona um event listener para fechar o modal ao clicar fora da imagem
-imageModal.addEventListener('click', (event) => {
-  console.log('Clique no modal:', event.target);
-  if (event.target === imageModal) {
-    console.log('Clicou fora da imagem, fechando o modal.');
-    closeModal();
-  } else {
-    console.log('Clicou dentro da imagem.');
-  }
-});
+        if (Math.abs(currentPosition) >= originalWidth) {
+            currentPosition += originalWidth;
+        }
 
-function closeModal() {
-  console.log('Função closeModal() chamada.');
-  imageModal.classList.remove('active');
+        animationFrameId = requestAnimationFrame(animateSlider);
+    }
+
+    function startAutoAnimation() {
+        if (!animationFrameId) {
+            autoAnimation = true;
+            animationFrameId = requestAnimationFrame(animateSlider);
+        }
+    }
+
+    function pauseAutoAnimation() {
+        autoAnimation = false;
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    slider.addEventListener('mouseenter', pauseAutoAnimation);
+    slider.addEventListener('mouseleave', startAutoAnimation);
+
+    slider.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const scrollSpeed = e.deltaY * 0.3; // Diminui a velocidade do scroll
+        currentPosition -= scrollSpeed;
+
+        const maxPosition = 0;
+        const minPosition = -originalWidth + slider.offsetWidth;
+
+        // Garante que a posição não ultrapasse os limites
+        currentPosition = Math.max(minPosition, Math.min(maxPosition, currentPosition));
+        updateSliderPosition();
+        pauseAutoAnimation();
+        startAutoAnimation();
+    });
+
+    startAutoAnimation();
+    animateSlider();
 }
+
+    function clearMainButtons() {
+        mainButtons.forEach(btn => {
+            btn.classList.remove('selected');
+            btn.classList.remove('highlight');
+        });
+    }
+
+    function showSection(sectionId) {
+        document.querySelectorAll('.gallery, .bio, .social-links, .commissions').forEach(section => section.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    function showCategory(cat) {
+        galleryGrids.forEach(g => g.style.display = 'none');
+        document.getElementById(cat).style.display = 'grid';
+        filterButtons.forEach(btn => btn.classList.remove('selected', 'highlight'));
+        const clickedBtn = Array.from(filterButtons).find(btn => btn.getAttribute('data-category') === cat);
+        if (clickedBtn) clickedBtn.classList.add('selected');
+    }
+
+    // Button Event Listeners
+    portfolioBtn.addEventListener('click', () => {
+        clearMainButtons();
+        portfolioBtn.classList.add('selected', 'highlight');
+        showSection('portfolio');
+        showCategory('fullrender');
+    });
+
+    aboutBtn.addEventListener('click', () => {
+        clearMainButtons();
+        aboutBtn.classList.add('selected', 'highlight');
+        showSection('bio');
+    });
+
+    commissionsBtn.addEventListener('click', () => {
+        clearMainButtons();
+        commissionsBtn.classList.add('selected', 'highlight');
+        showSection('commissions');
+        termsDiv.style.display = 'none';
+    });
+
+    homeBtn.addEventListener('click', () => {
+        showSection(null);
+        clearMainButtons();
+        filterButtons.forEach(btn => btn.classList.remove('selected', 'highlight'));
+    });
+
+    termsBtn.addEventListener('click', () => {
+        termsDiv.style.display = termsDiv.style.display === 'none' ? 'block' : 'none';
+        clearMainButtons();
+        termsBtn.classList.add('highlight');
+    });
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            showCategory(event.target.getAttribute('data-category'));
+            filterButtons.forEach(b => b.classList.remove('highlight'));
+            btn.classList.add('highlight');
+        });
+    });
+
+    // Modal Functions
+    function openImage(src) {
+        modalImg.src = src;
+        imageModal.classList.add("active");
+    }
+
+    function closeModal() {
+        imageModal.classList.remove('active');
+    }
+
+    galleryImages.forEach(img => img.addEventListener('click', () => openImage(img.src)));
+    sliderImages.forEach(img => img.addEventListener("click", () => openImage(img.src)));
+
+    // Modal Close Event
+    imageModal.addEventListener('click', (event) => {
+        if (event.target === imageModal) {
+            closeModal();
+        }
+    });
+
+});
