@@ -136,7 +136,7 @@ button.highlight {
     width: 30px;
     height: 30px;
     margin: 0 0.5rem;
-    opacity: 0.7;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
@@ -161,36 +161,78 @@ button.highlight {
 }
 
 /* Estilos para as imagens do slider de commissions */
-#commissions .commission-category {
-  overflow: hidden; /* Garante que nada vaze */
-  margin-bottom: 2rem;
+#commissions .commission-category h3 {
+  font-size: 2rem; /* Tamanho maior */
+  color: #5eff88; /* Cor verde */
+  font-family: 'Arial', sans-serif; /* Fonte estilosa (você pode escolher outra) */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para dar destaque */
+  margin-bottom: 0.5rem; /* Espaçamento abaixo do título */
+}
+
+#commissions .commission-category .commission-price {
+  font-size: 1.2rem; /* Tamanho do preço */
+  color: #f5f5f5; /* Cor do preço (branco) */
+  font-style: italic; /* Estilo itálico */
+  margin-left: 1rem; /* Espaçamento à esquerda do preço */
 }
 
 #commissions .image-slider {
-  display: flex;
-  white-space: nowrap; /* Impede quebras de linha */
-  transition: transform 0.3s linear;
-  animation: slide-left 80s linear infinite;
+    display: flex;
+    /* overflow: hidden;  Remova isso! */
+    white-space: nowrap;
+    transition: transform 0.3s linear;
+    width: fit-content; /* Adicione isso */
 }
 
 #commissions .image-slider img {
-  width: 300px;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  flex: none;
-  margin-right: 1rem;
-  object-fit: cover;
-  display: inline-block;
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    cursor: pointer;
+    object-fit: contain; /* Ou object-fit: cover; se preferir */
+    margin-right: 10px;
+}
+
+#commissions .commission-category {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory; /* Verifique se isso está causando o "snap" */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#commissions .commission-category::-webkit-scrollbar {
+    display: none;
+}
+
+#commissions .commission-category .image-slider {
+    display: flex;
+    overflow: visible;
+    white-space: nowrap;
+    transition: transform 0.3s linear;
+    width: fit-content;
+}
+
+#commissions .commission-category .image-slider img {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+    cursor: pointer;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 10px;
+    scroll-snap-align: start; /* Verifique se isso está causando o "snap" */
+    transition: object-position 0.3s ease;
 }
 
 #commissions .image-slider img:last-child {
-  margin-right: 0;
+    margin-right: 0;
 }
 
-#commissions .image-slider:hover {
-  animation-play-state: paused; /* Pausa a animação no hover */
-}
 
 @keyframes slide-left {
   0% {
