@@ -53,6 +53,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+const lazyLoadImages = document.querySelectorAll('.lazy-load');
+
+function loadFullImage(image) {
+    const fullImageSrc = image.dataset.src;
+    image.src = fullImageSrc;
+    image.classList.remove('lazy-load'); // Remove a classe para não carregar novamente
+}
+
+if ('IntersectionObserver' in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                let lazyImage = entry.target;
+                loadFullImage(lazyImage);
+                lazyImageObserver.unobserve(lazyImage); // Para de observar a imagem
+            }
+        });
+    });
+
+    lazyLoadImages.forEach(function(lazyImage) {
+        lazyImageObserver.observe(lazyImage);
+    });
+} else {
+    // Fallback para navegadores antigos (pode usar setTimeout para carregar após um tempo)
+    lazyLoadImages.forEach(function(image) {
+        loadFullImage(image);
+    });
+}
+
     function pauseAutoAnimation() {
         autoAnimation = false;
         cancelAnimationFrame(animationFrameId);
